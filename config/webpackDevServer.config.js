@@ -13,6 +13,7 @@ const sockHost = process.env.WDS_SOCKET_HOST;
 const sockPath = process.env.WDS_SOCKET_PATH; // default: '/ws'
 const sockPort = process.env.WDS_SOCKET_PORT;
 
+// 自定义配置
 const MyReactConfig = require('../react.config')
 
 module.exports = function (proxy, allowedHost) {

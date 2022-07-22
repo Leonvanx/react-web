@@ -26,6 +26,7 @@ const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin"
 
 const createEnvironmentHash = require("./webpack/persistentCache/createEnvironmentHash");
 
+// 自定义配置
 const MyReactConfig = require("../react.config");
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.

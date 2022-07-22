@@ -140,21 +140,5 @@
       "jest-watch-typeahead/testname"
     ],
     "resetMocks": true
-  },
-  "babel": {
-    "presets": [
-      "react-app"
-    ],
-    "plugins": [
-      [
-        "import",
-        {
-          "libraryName": "antd",
-          "libraryDirectory": "es",
-          "style": "css"
-        }
-      ]
-    ]
-
   }
 }
