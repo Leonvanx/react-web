@@ -64,13 +64,8 @@ const App = () => {
   //       <p>
   //         Edit <code>src/App.tsx</code> and save to reload.
   //       </p>
-  //       <Button type='primary'>按钮</Button>
-  //       <a
-  //         className="App-link"
-  //         href="https://reactjs.org"
-  //         target="_blank"
-  //         rel="noopener noreferrer"
-  //       >
+  //       <Button type="primary">按钮</Button>
+  //       <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
   //         Learn React
   //       </a>
   //     </header>
