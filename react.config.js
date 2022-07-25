@@ -14,7 +14,12 @@ module.exports = {
   resolve: {
     // 设置别名, 列如用@来代理src文件夹的绝对路径
     alias: {
-      '@': path.resolve(__dirname, 'src')
+      '@': path.resolve(__dirname, 'src'),
+      pages: path.resolve(__dirname, 'src/pages'),
+      comps: path.resolve(__dirname, 'src/components'),
+      hooks: path.resolve(__dirname, 'src/hooks'),
+      modules: path.resolve(__dirname, 'src/modules'),
+      types: path.resolve(__dirname, 'src/types')
     }
   },
   module: {

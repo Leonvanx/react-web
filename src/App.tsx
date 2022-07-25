@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import logo from '../src/assets/img/logo.svg';
+import logo from '@/assets/img/logo.svg';
+import Home from 'pages/home/index';
 
 import { Button, Card, DatePicker, Empty, Layout, Radio, Space, message, Input } from 'antd';
 import { ConfigProvider } from 'antd';
@@ -82,6 +83,8 @@ const App = () => {
           <Button disabled={loading} type="primary" onClick={() => run(state)}>
             {loading ? 'Loading' : 'Edit'}
           </Button>
+          <img src={logo} className="App-logo" alt="logo" />
+          <Home></Home>
         </div>
       </div>
     </ConfigProvider>
