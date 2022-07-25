@@ -19,30 +19,31 @@ module.exports = {
   },
   module: {
     // babel解析规则,例如：如下的解析.less文件
+    // 虽然引入了less编译后的custom-default.css，但是并不包括message样式，如果注释会导致message样式有问题。
     rules: [
-      //   {
-      //     test: /\.less$/,
-      //     use: [
-      //       { loader: "style-loader" },
-      //       {
-      //         loader: "css-loader", // translates CSS into CommonJS
-      //       },
-      //       {
-      //         loader: "less-loader",
-      //         options: {
-      //           lessOptions: {
-      //             modifyVars: {
-      //               "primary-color": "#CA3142",
-      //               "link-color": "#CA3142",
-      //               "border-radius-base": "2px",
-      //               "font-size-base": "14px",
-      //             },
-      //             javascriptEnabled: true,
-      //           },
-      //         },
-      //       },
-      //     ],
-      //   },
+      {
+        test: /\.less$/,
+        use: [
+          { loader: 'style-loader' },
+          {
+            loader: 'css-loader' // translates CSS into CommonJS
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                modifyVars: {
+                  'primary-color': '#CA3142',
+                  'link-color': '#CA3142',
+                  'border-radius-base': '2px',
+                  'font-size-base': '14px'
+                },
+                javascriptEnabled: true
+              }
+            }
+          }
+        ]
+      }
     ]
   },
   // 这里可以存放要使用的插件

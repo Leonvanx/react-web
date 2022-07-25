@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import '../src/assets/img/logo.svg';
+import logo from '../src/assets/img/logo.svg';
 
-import { Button, Card, DatePicker, Empty, Layout, Radio, Space } from 'antd';
+import { Button, Card, DatePicker, Empty, Layout, Radio, Space, message, Input } from 'antd';
 import { ConfigProvider } from 'antd';
-
+import { useRequest } from 'ahooks';
 import '../src/assets/css/custom-dark.css';
 import '../src/assets/css/custom-default.css';
 import '../src/assets/css/App.css';
@@ -13,6 +13,24 @@ const App = () => {
   const handlePrefixChange = (e: any) => {
     setPrefix(e.target.value);
   };
+  const changeUsername = (username: string): Promise<{ success: boolean }> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ success: true });
+      }, 1000);
+    });
+  };
+  const [state, setState] = useState('');
+
+  const { loading, run } = useRequest(changeUsername, {
+    manual: true,
+    onSuccess: (result, params) => {
+      if (result.success) {
+        setState('');
+        message.success(`The username was changed to "${params[0]}" !`);
+      }
+    }
+  });
   return (
     <ConfigProvider prefixCls={prefix}>
       <div className={`App ${prefix}`}>
@@ -54,6 +72,17 @@ const App = () => {
             <br />
           </Layout.Content>
         </Layout>
+        <div>
+          <Input
+            onChange={(e) => setState(e.target.value)}
+            value={state}
+            placeholder="Please enter username"
+            style={{ width: 240, marginRight: 16 }}
+          />
+          <Button disabled={loading} type="primary" onClick={() => run(state)}>
+            {loading ? 'Loading' : 'Edit'}
+          </Button>
+        </div>
       </div>
     </ConfigProvider>
   );
