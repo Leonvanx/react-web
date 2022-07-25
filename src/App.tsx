@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import logo from '@/assets/img/logo.svg';
+import logo from '@/assets/icons/logo.svg';
 import Home from 'pages/home/index';
 
 import { Button, Card, DatePicker, Empty, Layout, Radio, Space, message, Input } from 'antd';
 import { ConfigProvider } from 'antd';
 import { useRequest } from 'ahooks';
-import '../src/assets/css/custom-dark.css';
-import '../src/assets/css/custom-default.css';
-import '../src/assets/css/App.css';
+import '@/design/antd/custom-dark.css';
+import '@/design/antd/custom-default.css';
+import '@/design/App.css';
 
 const App = () => {
   const [prefix, setPrefix] = useState('custom-default');
@@ -15,9 +15,13 @@ const App = () => {
     setPrefix(e.target.value);
   };
   const changeUsername = (username: string): Promise<{ success: boolean }> => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve({ success: true });
+        if (Math.random() > 0.5) {
+          resolve({ success: true });
+        } else {
+          reject(new Error('Failed to modify username'));
+        }
       }, 1000);
     });
   };
@@ -30,6 +34,9 @@ const App = () => {
         setState('');
         message.success(`The username was changed to "${params[0]}" !`);
       }
+    },
+    onError: (error) => {
+      message.error(error.message);
     }
   });
   return (
