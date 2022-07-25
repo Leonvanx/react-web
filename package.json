@@ -8,6 +8,7 @@
     "test": "node scripts/test.js"
   },
   "dependencies": {
+    "ahooks": "^3.5.2",
     "antd": "^4.21.7",
     "react": "^18.2.0",
     "react-app-polyfill": "^3.0.0",
