@@ -8,7 +8,7 @@ module.exports = {
   // 使用的扩展库
   extends: ['airbnb', 'standard-react', 'plugin:prettier/recommended'],
   // 解析器用于解析代码
-  parser: 'babel-eslint',
+  parser: '@typescript-eslint/parser',
   // 解析器配置
   parserOptions: {
     ecmaFeatures: {
@@ -24,7 +24,7 @@ module.exports = {
     PATH_ENV: true
   },
   // 第三方插件
-  plugins: ['react'],
+  plugins: ['react', '@typescript-eslint/eslint-plugin'],
   // 规则配置
   rules: {
     semi: 0,

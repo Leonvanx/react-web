@@ -1,30 +1,21 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import '../src/assets/img/logo.svg';
 
-import {
-  Button,
-  Card,
-    DatePicker,
-  Empty,
-    Layout,
-  Radio,
-  Space} from "antd";
-import {ConfigProvider} from 'antd';
+import { Button, Card, DatePicker, Empty, Layout, Radio, Space } from 'antd';
+import { ConfigProvider } from 'antd';
 
 import '../src/assets/css/custom-dark.css';
 import '../src/assets/css/custom-default.css';
-import '../src/assets/css/App.css'
+import '../src/assets/css/App.css';
 
-
-const App =()=> {
-  const [prefix, setPrefix] = useState("custom-default");
-  const handlePrefixChange = (e:any) => {
+const App = () => {
+  const [prefix, setPrefix] = useState('custom-default');
+  const handlePrefixChange = (e: any) => {
     setPrefix(e.target.value);
   };
   return (
-
     <ConfigProvider prefixCls={prefix}>
-    <div className={`App ${prefix}`}>
+      <div className={`App ${prefix}`}>
         <Layout>
           <Layout.Content>
             <Space>
@@ -38,10 +29,7 @@ const App =()=> {
             <Space>
               <DatePicker />
               <Empty />
-              <Card
-                title="Default size card"
-                style={{ width: 300 }}
-              >
+              <Card title="Default size card" style={{ width: 300 }}>
                 <p>Card content</p>
                 <p>Card content</p>
                 <p>Card content</p>
@@ -57,17 +45,17 @@ const App =()=> {
               <br />
               <br />
               <Button type="primary">Primary</Button>
-              <Button >Default</Button>
+              <Button>Default</Button>
               <Button type="dashed">Dashed</Button>
               <br />
-              <Button type="link" >Link</Button>
+              <Button type="link">Link</Button>
               <br />
             </Space>
             <br />
           </Layout.Content>
         </Layout>
       </div>
-     </ConfigProvider>
+    </ConfigProvider>
   );
   // return (
   //   <div className="App">
@@ -88,6 +76,6 @@ const App =()=> {
   //     </header>
   //   </div>
   // );
-}
+};
 
 export default App;
