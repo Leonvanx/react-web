@@ -18,11 +18,11 @@
     "jsx": "react-jsx",
     "paths": {
       "@/*": ["src/*"],
+      "#/*": ["src/types/*"],
       "pages/*": ["src/pages/*"],
       "comps/*": ["src/components/*"],
       "hooks/*": ["src/hooks/*"],
-      "modules/*": ["src/modules/*"],
-      "types/*": ["src/types/*"]
+      "modules/*": ["src/modules/*"]
     }
   },
   "include": ["src"]

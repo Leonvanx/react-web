@@ -18,7 +18,6 @@ module.exports = {
       '#': path.resolve(__dirname, 'src/types'),
       pages: path.resolve(__dirname, 'src/pages'),
       comps: path.resolve(__dirname, 'src/components'),
-      apis: path.resolve(__dirname, 'src/apis'),
       hooks: path.resolve(__dirname, 'src/hooks'),
       modules: path.resolve(__dirname, 'src/modules')
     }
