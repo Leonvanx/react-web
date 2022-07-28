@@ -6,7 +6,7 @@ module.exports = {
     es6: true
   },
   // 使用的扩展库
-  extends: ['airbnb', 'standard-react', 'plugin:prettier/recommended'],
+  extends: ['alloy', 'alloy/react', 'alloy/typescript', 'plugin:prettier/recommended'],
   // 解析器用于解析代码
   parser: '@typescript-eslint/parser',
   // 解析器配置
