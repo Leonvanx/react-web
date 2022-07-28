@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import logo from '@/assets/icons/logo.svg';
-import Home from 'pages/home/index';
+import Home from 'comps/home/index';
 import myToast from '@/utils/toast';
 
 import { Button, Card, DatePicker, Empty, Layout, Radio, Space, message, Input } from 'antd';
@@ -9,14 +9,15 @@ import { useRequest } from 'ahooks';
 import '@/design/antd/custom-dark.css';
 import '@/design/antd/custom-default.css';
 import '@/design/App.css';
+import { Outlet } from 'react-router-dom';
 
-const Example = () => {
+const Ex2: React.FC = () => {
   const [prefix, setPrefix] = useState('custom-default');
 
   const handlePrefixChange = (e: any) => {
     setPrefix(e.target.value);
-    e.target.value == 'custom-default' && myToast.success('Successfully Changed!');
-    e.target.value == 'custom-dark' && myToast.success('Successfully Changed!', true);
+    e.target.value === 'custom-default' && myToast.success('Successfully Changed!');
+    e.target.value === 'custom-dark' && myToast.success('Successfully Changed!', true);
     // myToast.promise(changeUsername('Hi,Lvin'), {
     //   loading: 'Hi,Lvin',
     //   success: (data) => `Settings saved! ${data.success}`,
@@ -100,11 +101,12 @@ const Example = () => {
             {loading ? 'Loading' : 'Edit'}
           </Button>
           <img src={logo} className="App-logo" alt="logo" />
-          <Home></Home>
+          <Home />
+          <Outlet />
         </div>
       </div>
     </ConfigProvider>
   );
 };
 
-export default Example;
+export default Ex2;

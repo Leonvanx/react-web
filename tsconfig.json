@@ -16,6 +16,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
     "paths": {
       "@/*": ["src/*"],
       "#/*": ["src/types/*"],
@@ -25,5 +27,5 @@
       "modules/*": ["src/modules/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "src/**/*.ts", "**/*.tsx"]
 }

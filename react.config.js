@@ -1,6 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const path = require('path');
 module.exports = {
-  //这里配置开发环境,以用来开发时做跨域请求等的设置，详情可以自行百度了解
+  // 这里配置开发环境,以用来开发时做跨域请求等的设置，详情可以自行百度了解
   devServer: {
     port: process.env.PORT || 3000,
     open: true,
