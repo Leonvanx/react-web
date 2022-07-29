@@ -18,6 +18,7 @@
     "jsx": "react-jsx",
     // "noUnusedLocals": true,
     // "noUnusedParameters": true,
+    "experimentalDecorators": true,
     "paths": {
       "@/*": ["src/*"],
       "#/*": ["src/types/*"],

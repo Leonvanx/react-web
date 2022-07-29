@@ -7,19 +7,19 @@ import App from './App';
 
 import { Toaster } from 'react-hot-toast';
 // import reportWebVitals from './reportWebVitals';
-import { HashRouter } from 'react-router-dom';
-import { Spin } from 'antd';
+import { BrowserRouter } from 'react-router-dom';
+import Loading from './components/loading';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
   <React.StrictMode>
     <Toaster />
-    <HashRouter>
-      <Suspense fallback={<Spin className="spin-loading-class" tip="Loading..." />}>
+    <BrowserRouter>
+      <Suspense fallback={<Loading />}>
         <App />
       </Suspense>
-    </HashRouter>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

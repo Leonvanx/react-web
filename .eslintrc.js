@@ -39,6 +39,7 @@ module.exports = {
       }
     ],
     'no-useless-escape': 2,
-    'no-tabs': 'off'
+    'no-tabs': 'off',
+    '@typescript-eslint/explicit-member-accessibility': ['off']
   }
 };
