@@ -1,3 +1,4 @@
+[![OSCS Status](https://www.oscs1024.com/platform/badge/Leonvanx/react-web.svg?size=small)](https://www.oscs1024.com/project/Leonvanx/react-web?ref=badge_small)
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
