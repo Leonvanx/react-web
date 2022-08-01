@@ -5,6 +5,7 @@ import Redirect from '@/components/redirect';
 
 const Home = React.lazy(() => import('comps/home'));
 const Invoice = React.lazy(() => import('comps/invoice'));
+const Invoices = React.lazy(() => import('comps/invoices'));
 const Ex1 = React.lazy(() => import('comps/example/ex1'));
 const Ex2 = React.lazy(() => import('comps/example/ex2'));
 
@@ -39,8 +40,8 @@ const routeConfig: RouteObject[] = [
         ]
       },
       {
-        path: '/invoice',
-        element: React.createElement(Invoice)
+        path: '/invoices',
+        element: React.createElement(Invoices)
       }
     ]
   }
