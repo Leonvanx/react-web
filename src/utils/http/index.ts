@@ -1,36 +1,31 @@
 import myToast from '@/utils/toast';
 import { AxiosAspect, AxiosOpitions } from '#/axiosOptions';
 import { RequestOptions, Result } from '#/requestOpitions';
-import { ResultEnum } from '@/enums/httpEnum';
+import { AxiosCanceler } from '@/utils/http/axiosdCancelToken';
+import { RequestEnum, ResultEnum } from '@/enums/httpEnum';
 import { AxiosResponse, AxiosInstance } from 'axios';
-import { AxiosCanceler } from '#/axiosdCancelToken';
+import { isString } from '../is';
+import { checkStatus } from './checkStatus';
+import { joinTimestamp, setObjToUrlParams } from '..';
 
 const axiosAspect: AxiosAspect = {
-  beforeRequestHook: (config, options) => {
-    const { apiUrl, joinPrefix, joinParamsToUrl, formatDate, joinTime = true, urlPrefix } = options;
+  beforeRequestHook: (config, options: RequestOptions) => {
+    const { isJoinParamsToUrl, joinTime } = options;
 
-    if (joinPrefix) {
-      config.url = `${urlPrefix}${config.url}`;
-    }
-
-    if (apiUrl && isString(apiUrl)) {
-      config.url = `${apiUrl}${config.url}`;
-    }
     const params = config.params || {};
     const data = config.data || false;
-    formatDate && data && !isString(data) && formatRequestDate(data);
+
     if (config.method?.toUpperCase() === RequestEnum.GET) {
       if (!isString(params)) {
         // 给 get 请求加上时间戳参数，避免从缓存中拿数据。
-        config.params = Object.assign(params || {}, joinTimestamp(joinTime, false));
+        config.params = Object.assign(params || {}, joinTimestamp(joinTime!, false));
       } else {
         // 兼容restful风格
-        config.url = config.url + params + `${joinTimestamp(joinTime, true)}`;
+        config.url = config.url + params + `${joinTimestamp(joinTime!, true)}`;
         config.params = undefined;
       }
     } else {
       if (!isString(params)) {
-        formatDate && formatRequestDate(params);
         if (Reflect.has(config, 'data') && config.data && Object.keys(config.data).length > 0) {
           config.data = data;
           config.params = params;
@@ -39,7 +34,7 @@ const axiosAspect: AxiosAspect = {
           config.data = params;
           config.params = undefined;
         }
-        if (joinParamsToUrl) {
+        if (isJoinParamsToUrl) {
           config.url = setObjToUrlParams(config.url as string, { ...config.params, ...config.data });
         }
       } else {
@@ -59,7 +54,7 @@ const axiosAspect: AxiosAspect = {
     }
     // 不进行任何处理，直接返回
     // 用于页面代码可能需要直接获取code，data，message这些信息时开启
-    if (!isReturnNoAspectResponse) {
+    if (isReturnNoAspectResponse) {
       return res.data;
     }
 
@@ -105,8 +100,8 @@ const axiosAspect: AxiosAspect = {
     const { ignoreCancelToken } = config.requestOptions;
     const ignoreCancel =
       ignoreCancelToken !== undefined ? ignoreCancelToken : options.requestOptions?.ignoreCancelToken;
-
     !ignoreCancel && axiosCanceler.addPending(config);
+
     // config token
     // const token = getToken();
     // if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
@@ -121,42 +116,32 @@ const axiosAspect: AxiosAspect = {
   responseInterceptors: (res: AxiosResponse<any>) => {
     return res;
   },
+
+  requestInterceptorsCatch: (error: Error) => {
+    if (error) throw new Error(error.message);
+  },
+
   responseInterceptorsCatch: (axiosInstance: AxiosInstance, error: any) => {
-    // const { t } = useI18n();
-    // const errorLogStore = useErrorLogStoreWithOut();
-    // errorLogStore.addAjaxErrorInfo(error);
-    // const { response, code, message, config } = error || {};
-    // const errorMessageMode = config?.requestOptions?.errorMessageMode || 'none';
-    // const msg: string = response?.data?.error?.message ?? '';
-    // const err: string = error?.toString?.() ?? '';
-    // let errMessage = '';
-    // try {
-    //   if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
-    //     errMessage = t('sys.api.apiTimeoutMessage');
-    //   }
-    //   if (err?.includes('Network Error')) {
-    //     errMessage = t('sys.api.networkExceptionMsg');
-    //   }
-    //   if (errMessage) {
-    //     if (errorMessageMode === 'modal') {
-    //       createErrorModal({ title: t('sys.api.errorTip'), content: errMessage });
-    //     } else if (errorMessageMode === 'message') {
-    //       createMessage.error(errMessage);
-    //     }
-    //     return Promise.reject(error);
-    //   }
-    // } catch (error) {
-    //   throw new Error(error as unknown as string);
-    // }
-    // checkStatus(error?.response?.status, msg, errorMessageMode);
-    // // 添加自动重试机制 保险起见 只针对GET请求
-    // const retryRequest = new AxiosRetry();
-    // const { isOpenRetry } = config.requestOptions.retryRequest;
-    // config.method?.toUpperCase() === RequestEnum.GET &&
-    //   isOpenRetry &&
-    //   // @ts-ignore
-    //   retryRequest.retry(axiosInstance, error);
-    // return Promise.reject(error);
+    const { response, code, message } = error || {};
+    const msg: string = response?.data?.error?.message ?? '';
+    const err: string = error?.toString?.() ?? '';
+    let errMessage = '';
+
+    // socket请求错误
+    try {
+      if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
+        errMessage = '接口请求超时,请刷新页面重试!';
+      }
+      if (err?.includes('Network Error')) {
+        errMessage = '网络异常，请检查您的网络连接是否正常!';
+      }
+      myToast.error(errMessage);
+    } catch (error) {
+      throw new Error(error as unknown as string);
+    }
+
+    // http请求错误
+    checkStatus(error?.response?.status, msg);
   }
 };
 
