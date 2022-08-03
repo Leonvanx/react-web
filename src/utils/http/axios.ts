@@ -1,5 +1,4 @@
 import { AxiosOpitions } from '#/axiosOptions';
-import { AxiosCanceler } from '#/axiosdCancelToken';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { isFunction } from '@/utils/is';
 
@@ -25,23 +24,6 @@ export class DefAxios {
     }
     const { requestInterceptors, requestInterceptorsCatch, responseInterceptors, responseInterceptorsCatch } = aspect;
 
-    const axiosCanceler = new AxiosCanceler();
-
-    // Request interceptor configuration processing
-    // this.axiosInstance.interceptors.request.use((config: AxiosOpitions) => {
-    //   // If cancel repeat request is turned on, then cancel repeat request is prohibited
-    //   const { ignoreCancelToken } = config.requestOptions!;
-    //   const ignoreCancel =
-    //     ignoreCancelToken !== undefined ? ignoreCancelToken : this.axiosOpitions.requestOptions?.ignoreCancelToken;
-
-    //   !ignoreCancel && axiosCanceler.addPending(config);
-    //   let M_config = null;
-    //   if (requestInterceptors && isFunction(requestInterceptors)) {
-    //     M_config = requestInterceptors(config, this.axiosOpitions);
-    //   }
-    //   return M_config;
-    // }, undefined);
-
     // Request interceptor processing
     requestInterceptors &&
       isFunction(requestInterceptors) &&
@@ -55,16 +37,6 @@ export class DefAxios {
       this.axiosInstance.interceptors.request.use(undefined, (error) => {
         return requestInterceptorsCatch(error);
       });
-
-    // Response result interceptor processing
-    // this.axiosInstance.interceptors.response.use((res: AxiosResponse<any>) => {
-    //   res && axiosCanceler.removePending(res.config);
-    //   let M_res = null;
-    //   if (responseInterceptors && isFunction(responseInterceptors)) {
-    //     M_res = responseInterceptors(res);
-    //   }
-    //   return M_res;
-    // }, undefined);
 
     // Response result interceptor processing
     responseInterceptors &&

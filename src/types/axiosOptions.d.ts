@@ -9,7 +9,7 @@ export interface AxiosOpitions extends AxiosRequestConfig {
 
 export abstract class AxiosAspect {
   /**
-   * @description: Process configuration before request and after response
+   * @description: 处理请求前的params、data、url...
    */
   beforeRequestHook?: (config: AxiosRequestConfig, options: RequestOptions) => AxiosRequestConfig;
 
@@ -17,11 +17,6 @@ export abstract class AxiosAspect {
    * @description: 处理响应数据
    */
   transformResponseHook?: (res: AxiosResponse<Result>, options: RequestOptions) => any;
-
-  /**
-   * @description: 请求失败处理
-   */
-  requestCatchHook?: (e: Error, options: RequestOptions) => Promise<any>;
 
   /**
    * @description: 请求之前的拦截器
@@ -42,4 +37,9 @@ export abstract class AxiosAspect {
    * @description: 请求之后的拦截器错误处理
    */
   responseInterceptorsCatch?: (axiosInstance?: AxiosInstance, error: Error) => void;
+
+  /**
+   * @description: 请求失败处理
+   */
+  requestCatchHook?: (e: Error, options: RequestOptions) => Promise<any>;
 }

@@ -1,63 +1,11 @@
+import myToast from '@/utils/toast';
 import { AxiosAspect, AxiosOpitions } from '#/axiosOptions';
+import { RequestOptions, Result } from '#/requestOpitions';
+import { ResultEnum } from '@/enums/httpEnum';
+import { AxiosResponse, AxiosInstance } from 'axios';
+import { AxiosCanceler } from '#/axiosdCancelToken';
 
 const axiosAspect: AxiosAspect = {
-  /**
-   * @description: Process configuration before request and after response
-   */
-  transformResponseHook: (res: AxiosResponse<Result>, options: RequestOptions) => {
-    const { isTransformResponse, isReturnNativeResponse } = options;
-    // 是否返回原生响应头 比如：需要获取响应头时使用该属性
-    if (isReturnNativeResponse) {
-      return res;
-    }
-    // 不进行任何处理，直接返回
-    // 用于页面代码可能需要直接获取code，data，message这些信息时开启
-    if (!isTransformResponse) {
-      return res.data;
-    }
-
-    const { data } = res;
-    if (!data) {
-      // return '[HTTP] Request has no return value';
-      //   throw new Error(t('sys.api.apiRequestFailed'));
-    }
-    //  这里 code，result，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
-    const { code, result, message } = data;
-
-    // 这里逻辑可以根据项目进行修改
-    const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
-    if (hasSuccess) {
-      return result;
-    }
-
-    // 在此处根据自己项目的实际情况对不同的code执行不同的操作
-    // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
-    let timeoutMsg = '';
-    switch (code) {
-      case ResultEnum.TIMEOUT:
-        timeoutMsg = t('sys.api.timeoutMessage');
-        const userStore = useUserStoreWithOut();
-        userStore.setToken(undefined);
-        userStore.logout(true);
-        break;
-      default:
-        if (message) {
-          timeoutMsg = message;
-        }
-    }
-
-    // errorMessageMode=‘modal’的时候会显示modal错误弹窗，而不是消息提示，用于一些比较重要的错误
-    // errorMessageMode='none' 一般是调用时明确表示不希望自动弹出错误提示
-    if (options.errorMessageMode === 'modal') {
-      createErrorModal({ title: t('sys.api.errorTip'), content: timeoutMsg });
-    } else if (options.errorMessageMode === 'message') {
-      createMessage.error(timeoutMsg);
-    }
-
-    throw new Error(timeoutMsg || t('sys.api.apiRequestFailed'));
-  },
-
-  // 请求之前处理config
   beforeRequestHook: (config, options) => {
     const { apiUrl, joinPrefix, joinParamsToUrl, formatDate, joinTime = true, urlPrefix } = options;
 
@@ -103,71 +51,112 @@ const axiosAspect: AxiosAspect = {
     return config;
   },
 
-  /**
-   * @description: 请求拦截器处理
-   */
-  requestInterceptors: (config, options) => {
-    // 请求之前处理config
-    const token = getToken();
-    if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
-      // jwt token
-      (config as Recordable).headers.Authorization = options.authenticationScheme
-        ? `${options.authenticationScheme} ${token}`
-        : token;
+  transformResponseHook: (res: AxiosResponse<Result>, options: RequestOptions) => {
+    const { isReturnOriginResponse, isReturnNoAspectResponse } = options;
+    // 是否返回原生响应头 比如：需要获取响应头时使用该属性
+    if (isReturnOriginResponse) {
+      return res;
     }
+    // 不进行任何处理，直接返回
+    // 用于页面代码可能需要直接获取code，data，message这些信息时开启
+    if (!isReturnNoAspectResponse) {
+      return res.data;
+    }
+
+    const { data } = res;
+    if (!data) {
+      /**
+       * TODO
+       */
+      // return '[HTTP] Request has no return value';
+    }
+    const { code, result, message } = data;
+
+    // 这里逻辑可以根据项目进行修改
+    const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
+    if (hasSuccess) {
+      return result;
+    }
+
+    // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
+    let msg = '';
+    switch (code) {
+      case ResultEnum.TIMEOUT:
+        msg = '接口请求超时,请刷新页面重试';
+        /**
+         * TODO
+         */
+        myToast.error(msg);
+        break;
+      default:
+        if (message) {
+          msg = message;
+          myToast.error(msg);
+        }
+    }
+
+    throw new Error(msg || '请求出错，请稍候重试');
+  },
+
+  requestInterceptors: (config, options) => {
+    // config repeat request
+    const axiosCanceler = new AxiosCanceler();
+    // @ts-ignore
+    const { ignoreCancelToken } = config.requestOptions;
+    const ignoreCancel =
+      ignoreCancelToken !== undefined ? ignoreCancelToken : options.requestOptions?.ignoreCancelToken;
+
+    !ignoreCancel && axiosCanceler.addPending(config);
+    // config token
+    // const token = getToken();
+    // if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
+    //   // jwt token
+    //   (config as Recordable).headers.Authorization = options.authenticationScheme
+    //     ? `${options.authenticationScheme} ${token}`
+    //     : token;
+    // }
     return config;
   },
 
-  /**
-   * @description: 响应拦截器处理
-   */
   responseInterceptors: (res: AxiosResponse<any>) => {
     return res;
   },
-
-  /**
-   * @description: 响应错误处理
-   */
-  responseInterceptorsCatch: (axiosInstance: AxiosResponse, error: any) => {
-    const { t } = useI18n();
-    const errorLogStore = useErrorLogStoreWithOut();
-    errorLogStore.addAjaxErrorInfo(error);
-    const { response, code, message, config } = error || {};
-    const errorMessageMode = config?.requestOptions?.errorMessageMode || 'none';
-    const msg: string = response?.data?.error?.message ?? '';
-    const err: string = error?.toString?.() ?? '';
-    let errMessage = '';
-
-    try {
-      if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
-        errMessage = t('sys.api.apiTimeoutMessage');
-      }
-      if (err?.includes('Network Error')) {
-        errMessage = t('sys.api.networkExceptionMsg');
-      }
-
-      if (errMessage) {
-        if (errorMessageMode === 'modal') {
-          createErrorModal({ title: t('sys.api.errorTip'), content: errMessage });
-        } else if (errorMessageMode === 'message') {
-          createMessage.error(errMessage);
-        }
-        return Promise.reject(error);
-      }
-    } catch (error) {
-      throw new Error(error as unknown as string);
-    }
-
-    checkStatus(error?.response?.status, msg, errorMessageMode);
-
-    // 添加自动重试机制 保险起见 只针对GET请求
-    const retryRequest = new AxiosRetry();
-    const { isOpenRetry } = config.requestOptions.retryRequest;
-    config.method?.toUpperCase() === RequestEnum.GET &&
-      isOpenRetry &&
-      // @ts-ignore
-      retryRequest.retry(axiosInstance, error);
-    return Promise.reject(error);
+  responseInterceptorsCatch: (axiosInstance: AxiosInstance, error: any) => {
+    // const { t } = useI18n();
+    // const errorLogStore = useErrorLogStoreWithOut();
+    // errorLogStore.addAjaxErrorInfo(error);
+    // const { response, code, message, config } = error || {};
+    // const errorMessageMode = config?.requestOptions?.errorMessageMode || 'none';
+    // const msg: string = response?.data?.error?.message ?? '';
+    // const err: string = error?.toString?.() ?? '';
+    // let errMessage = '';
+    // try {
+    //   if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
+    //     errMessage = t('sys.api.apiTimeoutMessage');
+    //   }
+    //   if (err?.includes('Network Error')) {
+    //     errMessage = t('sys.api.networkExceptionMsg');
+    //   }
+    //   if (errMessage) {
+    //     if (errorMessageMode === 'modal') {
+    //       createErrorModal({ title: t('sys.api.errorTip'), content: errMessage });
+    //     } else if (errorMessageMode === 'message') {
+    //       createMessage.error(errMessage);
+    //     }
+    //     return Promise.reject(error);
+    //   }
+    // } catch (error) {
+    //   throw new Error(error as unknown as string);
+    // }
+    // checkStatus(error?.response?.status, msg, errorMessageMode);
+    // // 添加自动重试机制 保险起见 只针对GET请求
+    // const retryRequest = new AxiosRetry();
+    // const { isOpenRetry } = config.requestOptions.retryRequest;
+    // config.method?.toUpperCase() === RequestEnum.GET &&
+    //   isOpenRetry &&
+    //   // @ts-ignore
+    //   retryRequest.retry(axiosInstance, error);
+    // return Promise.reject(error);
   }
 };
 
