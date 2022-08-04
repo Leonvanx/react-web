@@ -1,3 +1,4 @@
+import myToast from '@/utils/toast';
 export function checkStatus(status: number, msg: string): void {
   let errMessage = '';
 
@@ -17,40 +18,24 @@ export function checkStatus(status: number, msg: string): void {
       break;
     // 404请求不存在
     case 404:
-      errMessage = '';
-      break;
-    case 405:
-      errMessage = '';
-      break;
-    case 408:
-      errMessage = '';
+      errMessage = '服务器未找到资源';
       break;
     case 500:
-      errMessage = '';
-      break;
-    case 501:
-      errMessage = '服务器错误,请联系管理员!';
+      errMessage = '服务器内部错误';
       break;
     case 502:
-      errMessage = '';
+      errMessage = '网络错误';
       break;
     case 503:
-      errMessage = '';
+      errMessage = '服务不可用';
       break;
     case 504:
-      errMessage = '';
-      break;
-    case 505:
-      errMessage = '';
+      errMessage = '请求超时';
       break;
     default:
   }
 
   if (errMessage) {
-    if (errorMessageMode === 'modal') {
-      createErrorModal({ title: t('sys.api.errorTip'), content: errMessage });
-    } else if (errorMessageMode === 'message') {
-      error({ content: errMessage, key: `global_error_message_status_${status}` });
-    }
+    myToast.error(errMessage);
   }
 }

@@ -1,15 +1,16 @@
+import { DefAxios } from './axios';
 import myToast from '@/utils/toast';
-import { AxiosAspect, AxiosOpitions } from '#/axiosOptions';
-import { RequestOptions, Result } from '#/requestOpitions';
+import { AxiosAspect, AxiosOptions } from '#/axiosOptions';
+import { RequestOptions, Result } from '@/types/requestOptions';
 import { AxiosCanceler } from '@/utils/http/axiosdCancelToken';
-import { RequestEnum, ResultEnum } from '@/enums/httpEnum';
-import { AxiosResponse, AxiosInstance } from 'axios';
+import { ContentTypeEnum, RequestEnum, ResultEnum } from '@/enums/httpEnum';
+import { AxiosResponse, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { isString } from '../is';
 import { checkStatus } from './checkStatus';
-import { joinTimestamp, setObjToUrlParams } from '..';
+import { joinTimestamp, setObjToUrlParams, deepMerge } from '..';
 
 const axiosAspect: AxiosAspect = {
-  beforeRequestHook: (config, options: RequestOptions) => {
+  beforeRequestHook: (config: AxiosRequestConfig, options: RequestOptions) => {
     const { isJoinParamsToUrl, joinTime } = options;
 
     const params = config.params || {};
@@ -67,7 +68,6 @@ const axiosAspect: AxiosAspect = {
     }
     const { code, result, message } = data;
 
-    // 这里逻辑可以根据项目进行修改
     const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
     if (hasSuccess) {
       return result;
@@ -93,11 +93,10 @@ const axiosAspect: AxiosAspect = {
     throw new Error(msg || '请求出错，请稍候重试');
   },
 
-  requestInterceptors: (config, options) => {
+  requestInterceptors: (config: AxiosRequestConfig, options: AxiosOptions) => {
     // config repeat request
     const axiosCanceler = new AxiosCanceler();
-    // @ts-ignore
-    const { ignoreCancelToken } = config.requestOptions;
+    const { ignoreCancelToken } = options.requestOptions!;
     const ignoreCancel =
       ignoreCancelToken !== undefined ? ignoreCancelToken : options.requestOptions?.ignoreCancelToken;
     !ignoreCancel && axiosCanceler.addPending(config);
@@ -145,7 +144,31 @@ const axiosAspect: AxiosAspect = {
   }
 };
 
-function ceateAxios(option?: AxiosOpitions) {}
+function ceateAxios(option?: AxiosOptions) {
+  return new DefAxios(
+    deepMerge(
+      {
+        timeout: 10 * 1000,
+        headers: { 'Content-Type': ContentTypeEnum.JSON },
+        axiosAspect: axiosAspect,
+        RequestOptions: {
+          isReturnOriginResponse: false,
+          // 是否需要返回不经过Aspect处理的res
+          isReturnNoAspectResponse: false,
+          // 是否需要将POST请求的参数拼接到URL
+          isJoinParamsToUrl: false,
+          // 是否需要加入时间戳
+          joinTime: true,
+          // 是否需要忽略重复请求
+          ignoreCancelToken: true,
+          // 是否需要增加TOKEN到请求头
+          withToken: true
+        }
+      },
+      option || {}
+    )
+  );
+}
 
-const defHttp = {};
+const defHttp = ceateAxios();
 export default defHttp;

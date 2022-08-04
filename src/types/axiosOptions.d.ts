@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
-import type { RequestOptions, Result } from '#/requestOpitions';
+import type { RequestOptions, Result } from '@/types/requestOptions';
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-export interface AxiosOpitions extends AxiosRequestConfig {
+export interface AxiosOptions extends AxiosRequestConfig {
   axiosAspect?: AxiosAspect;
   requestOptions?: RequestOptions;
 }
@@ -21,7 +21,7 @@ export abstract class AxiosAspect {
   /**
    * @description: 请求之前的拦截器
    */
-  requestInterceptors?: (config: AxiosRequestConfig, options: AxiosOpitions) => AxiosRequestConfig;
+  requestInterceptors?: (config: AxiosRequestConfig, options: AxiosOptions) => AxiosRequestConfig;
 
   /**
    * @description: 请求之后的拦截器
