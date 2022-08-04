@@ -49,48 +49,50 @@ const axiosAspect: AxiosAspect = {
 
   transformResponseHook: (res: AxiosResponse<Result>, options: RequestOptions) => {
     const { isReturnOriginResponse, isReturnNoAspectResponse } = options;
-    // 是否返回原生响应头 比如：需要获取响应头时使用该属性
-    if (isReturnOriginResponse) {
-      return res;
-    }
-    // 不进行任何处理，直接返回
-    // 用于页面代码可能需要直接获取code，data，message这些信息时开启
-    if (isReturnNoAspectResponse) {
-      return res.data;
-    }
+    if (res) {
+      // 是否返回原生响应头 比如：需要获取响应头时使用该属性
+      if (isReturnOriginResponse) {
+        return res;
+      }
+      // 不进行任何处理，直接返回
+      // 用于页面代码可能需要直接获取code，data，message这些信息时开启
+      if (isReturnNoAspectResponse) {
+        return res.data;
+      }
 
-    const { data } = res;
-    if (!data) {
-      /**
-       * TODO
-       */
-      // return '[HTTP] Request has no return value';
-    }
-    const { code, result, message } = data;
-
-    const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
-    if (hasSuccess) {
-      return result;
-    }
-
-    // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
-    let msg = '';
-    switch (code) {
-      case ResultEnum.TIMEOUT:
-        msg = '接口请求超时,请刷新页面重试';
+      // eslint-disable-next-line no-debugger
+      const { data } = res;
+      if (!data) {
+        throw new Error('请求出错，请稍候重试');
         /**
          * TODO
          */
-        myToast.error(msg);
-        break;
-      default:
-        if (message) {
-          msg = message;
-          myToast.error(msg);
-        }
-    }
+        // return '[HTTP] Request has no return value';
+      }
+      const { code, result, message } = data;
 
-    throw new Error(msg || '请求出错，请稍候重试');
+      const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
+      if (hasSuccess) {
+        return result;
+      }
+
+      // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
+      let msg = '';
+      switch (code) {
+        case ResultEnum.TIMEOUT:
+          msg = '接口请求超时,请刷新页面重试';
+          /**
+           * TODO
+           */
+          myToast.error(msg);
+          break;
+        default:
+          if (message) {
+            msg = message;
+            myToast.error(msg);
+          }
+      }
+    }
   },
 
   requestInterceptors: (config: AxiosRequestConfig, options: AxiosOptions) => {
@@ -130,16 +132,18 @@ const axiosAspect: AxiosAspect = {
     try {
       if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
         errMessage = '接口请求超时,请刷新页面重试!';
+        myToast.error(errMessage);
       }
       if (err?.includes('Network Error')) {
         errMessage = '网络异常，请检查您的网络连接是否正常!';
+        myToast.error(errMessage);
       }
-      myToast.error(errMessage);
     } catch (error) {
       throw new Error(error as unknown as string);
     }
 
     // http请求错误
+    // eslint-disable-next-line no-debugger
     checkStatus(error?.response?.status, msg);
   }
 };

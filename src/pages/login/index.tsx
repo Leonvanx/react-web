@@ -3,8 +3,13 @@ import { Button } from 'antd';
 
 const Login: React.FC = () => {
   const Login = () => {
-    console.log('post');
-    loginApi({ userName: 'test', userPwd: '123456' });
+    loginApi({ userName: 'test', userPwd: '123456' })
+      .then((res) => {
+        console.log('res', res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
   return (
     <>

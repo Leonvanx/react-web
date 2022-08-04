@@ -14,7 +14,6 @@ export class DefAxios {
     this.axiosInstance = axios.create(axiosOptions);
     this.setupInterceptors();
   }
-
   supportFormData(config: AxiosRequestConfig) {
     const headers = config.headers || this.axiosOptions.headers;
     const contentType = headers?.['Content-Type'] || headers?.['content-type'];
@@ -105,7 +104,7 @@ export class DefAxios {
               const ret = transformResponseHook(res, mergeRequestOptions);
               resolve(ret);
             } catch (err) {
-              reject(err || new Error('request error!'));
+              reject(err || new Error('请求出错，请稍后再试'));
             }
             return;
           }
