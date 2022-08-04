@@ -151,7 +151,7 @@ function ceateAxios(option?: AxiosOptions) {
         timeout: 10 * 1000,
         headers: { 'Content-Type': ContentTypeEnum.JSON },
         axiosAspect: axiosAspect,
-        RequestOptions: {
+        requestOptions: {
           isReturnOriginResponse: false,
           // 是否需要返回不经过Aspect处理的res
           isReturnNoAspectResponse: false,

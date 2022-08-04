@@ -15,6 +15,7 @@ const Ex1: React.FC = () => {
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
         <Button type="primary">按钮</Button>
+        <Link to="/login">to login</Link>
         <Link to="/Ex2">to Ex2</Link>
         <Link to="example">to Example</Link>
         <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">

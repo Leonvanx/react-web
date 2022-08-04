@@ -66,19 +66,19 @@ export class DefAxios {
     });
   }
 
-  get<T = any>(axiosReqConfig: AxiosRequestConfig, reqOptions: RequestOptions): Promise<T> {
+  get<T = any>(axiosReqConfig: AxiosRequestConfig, reqOptions?: RequestOptions): Promise<T> {
     return this.request({ ...axiosReqConfig, method: 'GET' }, reqOptions);
   }
-  post<T = any>(axiosReqConfig: AxiosRequestConfig, reqOptions: RequestOptions): Promise<T> {
+  post<T = any>(axiosReqConfig: AxiosRequestConfig, reqOptions?: RequestOptions): Promise<T> {
     return this.request({ ...axiosReqConfig, method: 'POST' }, reqOptions);
   }
-  delete<T = any>(axiosReqConfig: AxiosRequestConfig, reqOptions: RequestOptions): Promise<T> {
+  delete<T = any>(axiosReqConfig: AxiosRequestConfig, reqOptions?: RequestOptions): Promise<T> {
     return this.request({ ...axiosReqConfig, method: 'DELETE' }, reqOptions);
   }
-  put<T = any>(axiosReqConfig: AxiosRequestConfig, reqOptions: RequestOptions): Promise<T> {
+  put<T = any>(axiosReqConfig: AxiosRequestConfig, reqOptions?: RequestOptions): Promise<T> {
     return this.request({ ...axiosReqConfig, method: 'PUT' }, reqOptions);
   }
-  head<T = any>(axiosReqConfig: AxiosRequestConfig, reqOptions: RequestOptions): Promise<T> {
+  head<T = any>(axiosReqConfig: AxiosRequestConfig, reqOptions?: RequestOptions): Promise<T> {
     return this.request({ ...axiosReqConfig, method: 'HEAD' }, reqOptions);
   }
   request<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
@@ -96,7 +96,6 @@ export class DefAxios {
     conf.requestOptions = mergeRequestOptions;
 
     conf = this.supportFormData(conf);
-
     return new Promise((resolve, reject) => {
       this.axiosInstance
         .request<any, AxiosResponse<Result>>(conf)

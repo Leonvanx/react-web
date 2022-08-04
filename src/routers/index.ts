@@ -9,6 +9,8 @@ const Invoices = React.lazy(() => import('comps/invoices'));
 const Ex1 = React.lazy(() => import('comps/example/ex1'));
 const Ex2 = React.lazy(() => import('comps/example/ex2'));
 
+const Login = React.lazy(() => import('pages/login'));
+
 const routeConfig: RouteObject[] = [
   {
     path: '*',
@@ -42,6 +44,10 @@ const routeConfig: RouteObject[] = [
       {
         path: '/invoices',
         element: React.createElement(Invoices)
+      },
+      {
+        path: '/login',
+        element: React.createElement(Login)
       }
     ]
   }
