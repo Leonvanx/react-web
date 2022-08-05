@@ -1,6 +1,6 @@
 import { isObject } from './is';
 
-export function joinTimestamp<T extends boolean>(join: boolean, restful: T): T extends true ? string : object;
+export function joinTimestamp<T extends boolean>(_join: boolean, _restful: T): T extends true ? string : object;
 
 export function joinTimestamp(join: boolean, restful = false): string | object {
   if (!join) {

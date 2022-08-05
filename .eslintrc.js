@@ -40,6 +40,7 @@ module.exports = {
     ],
     'no-useless-escape': 2,
     'no-tabs': 'off',
+    'no-debugger': 1,
     '@typescript-eslint/explicit-member-accessibility': ['off']
   }
 };

@@ -2,7 +2,7 @@ import toast from 'react-hot-toast';
 
 // eslint-disable-next-line no-undef
 declare type Renderable = JSX.Element | string | null;
-declare type ValueFunction<TValue, TArg> = (arg: TArg) => TValue;
+declare type ValueFunction<TValue, TArg> = (_arg: TArg) => TValue;
 declare type ValueOrFunction<TValue, TArg> = TValue | ValueFunction<TValue, TArg>;
 
 const darkStyle = {

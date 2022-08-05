@@ -71,11 +71,14 @@ export class DefAxios {
   post<T = any>(axiosReqConfig: AxiosRequestConfig, reqOptions?: RequestOptions): Promise<T> {
     return this.request({ ...axiosReqConfig, method: 'POST' }, reqOptions);
   }
+  put<T = any>(axiosReqConfig: AxiosRequestConfig, reqOptions?: RequestOptions): Promise<T> {
+    return this.request({ ...axiosReqConfig, method: 'PUT' }, reqOptions);
+  }
   delete<T = any>(axiosReqConfig: AxiosRequestConfig, reqOptions?: RequestOptions): Promise<T> {
     return this.request({ ...axiosReqConfig, method: 'DELETE' }, reqOptions);
   }
-  put<T = any>(axiosReqConfig: AxiosRequestConfig, reqOptions?: RequestOptions): Promise<T> {
-    return this.request({ ...axiosReqConfig, method: 'PUT' }, reqOptions);
+  path<T = any>(axiosReqConfig: AxiosRequestConfig, reqOptions?: RequestOptions): Promise<T> {
+    return this.request({ ...axiosReqConfig, method: 'PATH' }, reqOptions);
   }
   head<T = any>(axiosReqConfig: AxiosRequestConfig, reqOptions?: RequestOptions): Promise<T> {
     return this.request({ ...axiosReqConfig, method: 'HEAD' }, reqOptions);
@@ -114,9 +117,6 @@ export class DefAxios {
           if (requestCatchHook && isFunction(requestCatchHook)) {
             reject(requestCatchHook(e, mergeRequestOptions));
             return;
-          }
-          if (axios.isAxiosError(e)) {
-            // rewrite error message from axios in here
           }
           reject(e);
         });

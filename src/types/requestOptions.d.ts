@@ -6,11 +6,11 @@ export interface RequestOptions {
   // 是否需要将POST请求的参数拼接到URL
   isJoinParamsToUrl?: boolean;
   // 是否需要加入时间戳
-  joinTime?: boolean;
+  isJoinTime?: boolean;
   // 是否需要忽略重复请求
-  ignoreCancelToken?: boolean;
+  isIgnoreRepeatRequest?: boolean;
   // 是否需要增加TOKEN到请求头
-  withToken?: boolean;
+  isWithToken?: boolean;
 }
 
 export interface Result<T = any> {

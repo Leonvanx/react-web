@@ -1,5 +1,6 @@
 import defHttp from '@/utils/http';
 import { GetUserInfoModel, LoginParams, LoginResultModel } from './loginType';
+import { RequestOptions } from '#/requestOptions';
 
 const Api = {
   Login: '/login',
@@ -9,11 +10,14 @@ const Api = {
 /**
  * @description: user login api
  */
-export function loginApi(data: LoginParams) {
-  return defHttp.post<LoginResultModel>({
-    url: Api.Login,
-    data: data
-  });
+export function loginApi(data: LoginParams, reqOptions?: RequestOptions) {
+  return defHttp.post<LoginResultModel>(
+    {
+      url: Api.Login,
+      data: data
+    },
+    reqOptions
+  );
 }
 
 /**

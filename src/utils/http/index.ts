@@ -11,7 +11,7 @@ import { joinTimestamp, setObjToUrlParams, deepMerge } from '..';
 
 const axiosAspect: AxiosAspect = {
   beforeRequestHook: (config: AxiosRequestConfig, options: RequestOptions) => {
-    const { isJoinParamsToUrl, joinTime } = options;
+    const { isJoinParamsToUrl, isJoinTime } = options;
 
     const params = config.params || {};
     const data = config.data || false;
@@ -19,10 +19,10 @@ const axiosAspect: AxiosAspect = {
     if (config.method?.toUpperCase() === RequestEnum.GET) {
       if (!isString(params)) {
         // 给 get 请求加上时间戳参数，避免从缓存中拿数据。
-        config.params = Object.assign(params || {}, joinTimestamp(joinTime!, false));
+        config.params = Object.assign(params || {}, joinTimestamp(isJoinTime!, false));
       } else {
         // 兼容restful风格
-        config.url = config.url + params + `${joinTimestamp(joinTime!, true)}`;
+        config.url = config.url + params + `${joinTimestamp(isJoinTime!, true)}`;
         config.params = undefined;
       }
     } else {
@@ -60,14 +60,9 @@ const axiosAspect: AxiosAspect = {
         return res.data;
       }
 
-      // eslint-disable-next-line no-debugger
       const { data } = res;
       if (!data) {
-        throw new Error('请求出错，请稍候重试');
-        /**
-         * TODO
-         */
-        // return '[HTTP] Request has no return value';
+        throw new Error('request has no return value');
       }
       const { code, result, message } = data;
 
@@ -98,10 +93,10 @@ const axiosAspect: AxiosAspect = {
   requestInterceptors: (config: AxiosRequestConfig, options: AxiosOptions) => {
     // config repeat request
     const axiosCanceler = new AxiosCanceler();
-    const { ignoreCancelToken } = options.requestOptions!;
+    const { isIgnoreRepeatRequest } = options.requestOptions!;
     const ignoreCancel =
-      ignoreCancelToken !== undefined ? ignoreCancelToken : options.requestOptions?.ignoreCancelToken;
-    !ignoreCancel && axiosCanceler.addPending(config);
+      isIgnoreRepeatRequest !== undefined ? isIgnoreRepeatRequest : options.requestOptions?.isIgnoreRepeatRequest;
+    ignoreCancel && axiosCanceler.addPending(config);
 
     // config token
     // const token = getToken();
@@ -162,9 +157,9 @@ function ceateAxios(option?: AxiosOptions) {
           // 是否需要将POST请求的参数拼接到URL
           isJoinParamsToUrl: false,
           // 是否需要加入时间戳
-          joinTime: true,
+          isJoinTime: true,
           // 是否需要忽略重复请求
-          ignoreCancelToken: true,
+          isIgnoreRepeatRequest: true,
           // 是否需要增加TOKEN到请求头
           withToken: true
         }
