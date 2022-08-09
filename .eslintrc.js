@@ -26,6 +26,7 @@ module.exports = {
   // 第三方插件
   plugins: ['react', '@typescript-eslint/eslint-plugin'],
   // 规则配置
+  ignores: ['config/*.js'],
   rules: {
     semi: 0,
     'no-unused-vars': [

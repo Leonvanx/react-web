@@ -2,8 +2,9 @@ import { loginApi } from '@/apis/login';
 import { Button } from 'antd';
 
 const Login: React.FC = () => {
+  const data = { userName: 'test', userPwd: '123456' };
   const Login = () => {
-    loginApi({ userName: 'test', userPwd: '123456' })
+    loginApi(data)
       .then((res) => {
         console.log('res', res);
       })

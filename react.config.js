@@ -3,12 +3,16 @@ const path = require('path');
 module.exports = {
   // 这里配置开发环境,以用来开发时做跨域请求等的设置，详情可以自行百度了解
   devServer: {
-    port: process.env.PORT || 3000,
+    host: '127.0.0.1',
+    port: process.env.PORT || 9000,
     open: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:3000/',
-        changeOrigin: true
+        target: 'http://127.0.0.1:3000/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '/'
+        }
       }
     }
   },

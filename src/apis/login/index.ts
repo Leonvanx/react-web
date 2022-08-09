@@ -23,6 +23,6 @@ export function loginApi(data: LoginParams, reqOptions?: RequestOptions) {
 /**
  * @description: getUserInfo
  */
-export function getUserInfo() {
-  return defHttp.get<GetUserInfoModel>({ url: Api.GetUserInfo });
+export function getUserInfo(reqOptions?: RequestOptions) {
+  return defHttp.get<GetUserInfoModel>({ url: Api.GetUserInfo }, reqOptions);
 }
