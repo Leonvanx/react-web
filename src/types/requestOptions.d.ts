@@ -13,10 +13,14 @@ export interface RequestOptions {
   isWithToken?: boolean;
 }
 
-export interface Result<T = any> {
+export interface ResultSuccess<T = any> {
   code: number;
   message: string;
   result: T;
+}
+export interface ResultError<T = any> {
+  code: number;
+  message: string;
 }
 
 export interface UploadFileParams {

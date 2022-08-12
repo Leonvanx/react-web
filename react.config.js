@@ -1,23 +1,21 @@
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const path = require('path');
 module.exports = {
-  // 这里配置开发环境,以用来开发时做跨域请求等的设置，详情可以自行百度了解
   devServer: {
     host: '127.0.0.1',
     port: process.env.PORT || 9000,
     open: true,
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:3000/',
+        target: 'http://127.0.0.1:7001/',
         changeOrigin: true,
         pathRewrite: {
-          '^/api': '/'
+          '^/api': ''
         }
       }
     }
   },
   resolve: {
-    // 设置别名, 列如用@来代理src文件夹的绝对路径
     alias: {
       '@': path.resolve(__dirname, 'src'),
       '#': path.resolve(__dirname, 'src/types'),

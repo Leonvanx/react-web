@@ -3,8 +3,8 @@ import { GetUserInfoModel, LoginParams, LoginResultModel } from './loginType';
 import { RequestOptions } from '#/requestOptions';
 
 const Api = {
-  Login: '/login',
-  GetUserInfo: '/getUserInfo'
+  Login: '/api/login',
+  GetUserInfo: '/api/getUserInfo'
 };
 
 /**
@@ -23,6 +23,12 @@ export function loginApi(data: LoginParams, reqOptions?: RequestOptions) {
 /**
  * @description: getUserInfo
  */
-export function getUserInfo(reqOptions?: RequestOptions) {
-  return defHttp.get<GetUserInfoModel>({ url: Api.GetUserInfo }, reqOptions);
+export function getUserInfo(params: any, reqOptions?: RequestOptions) {
+  return defHttp.get<GetUserInfoModel>(
+    {
+      url: Api.GetUserInfo,
+      params: params
+    },
+    reqOptions
+  );
 }

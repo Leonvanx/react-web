@@ -1,4 +1,6 @@
 module.exports = {
+  // export default [
+  // {
   root: true,
   // 环境，这里可以设置环来做区别判断
   env: {
@@ -26,7 +28,7 @@ module.exports = {
   // 第三方插件
   plugins: ['react', '@typescript-eslint/eslint-plugin'],
   // 规则配置
-  ignores: ['config/*.js'],
+  ignorePatterns: ['config/*', '!**/.eslintrc.js'],
   rules: {
     semi: 0,
     'no-unused-vars': [
@@ -45,3 +47,4 @@ module.exports = {
     '@typescript-eslint/explicit-member-accessibility': ['off']
   }
 };
+// ];

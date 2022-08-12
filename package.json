@@ -101,6 +101,9 @@
       "last 1 safari version"
     ]
   },
+  "eslintIgnore": [
+    "/src/"
+  ],
   "jest": {
     "roots": [
       "<rootDir>/src"

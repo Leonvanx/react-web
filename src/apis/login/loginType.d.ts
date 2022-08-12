@@ -1,3 +1,4 @@
+import { ResultSuccess } from '#/requestOptions.d';
 export interface LoginParams {
   userName: string;
   userPwd: string;
@@ -6,9 +7,11 @@ export interface RoleInfo {
   roleName: string;
   value: string;
 }
-export interface LoginResultModel {
-  userId: string | number;
-  userRole: RoleInfo;
+export interface LoginResultModel extends ResultSuccess {
+  result?: {
+    userId: string | number;
+    userRole: RoleInfo;
+  };
 }
 export interface GetUserInfoModel {
   roles: RoleInfo[];

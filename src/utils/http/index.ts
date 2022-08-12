@@ -1,7 +1,7 @@
 import { DefAxios } from './axios';
 import myToast from '@/utils/toast';
 import { AxiosAspect, AxiosOptions } from '#/axiosOptions';
-import { RequestOptions, Result } from '@/types/requestOptions';
+import { RequestOptions, ResultSuccess } from '@/types/requestOptions';
 import { AxiosCanceler } from '@/utils/http/axiosdCancelToken';
 import { ContentTypeEnum, RequestEnum, ResultEnum } from '@/enums/httpEnum';
 import { AxiosResponse, AxiosInstance, AxiosRequestConfig } from 'axios';
@@ -47,7 +47,7 @@ const axiosAspect: AxiosAspect = {
     return config;
   },
 
-  transformResponseHook: (res: AxiosResponse<Result>, options: RequestOptions) => {
+  transformResponseHook: (res: AxiosResponse<ResultSuccess>, options: RequestOptions) => {
     const { isReturnOriginResponse, isReturnNoAspectResponse } = options;
     if (res) {
       // 是否返回原生响应头 比如：需要获取响应头时使用该属性
@@ -68,7 +68,7 @@ const axiosAspect: AxiosAspect = {
 
       const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
       if (hasSuccess) {
-        return result;
+        return result || message;
       }
 
       // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
@@ -80,12 +80,13 @@ const axiosAspect: AxiosAspect = {
            * TODO
            */
           myToast.error(msg);
-          break;
+          throw new Error(msg);
         default:
           if (message) {
             msg = message;
             myToast.error(msg);
           }
+          throw new Error(msg);
       }
     }
   },

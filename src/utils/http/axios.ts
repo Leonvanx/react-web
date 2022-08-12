@@ -1,4 +1,4 @@
-import { RequestOptions, Result, UploadFileParams } from '@/types/requestOptions';
+import { RequestOptions, ResultSuccess, UploadFileParams } from '@/types/requestOptions';
 import { AxiosOptions } from '#/axiosOptions';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { isFunction } from '../is';
@@ -100,8 +100,8 @@ export class DefAxios {
     conf = this.supportFormData(conf);
     return new Promise((resolve, reject) => {
       this.axiosInstance
-        .request<any, AxiosResponse<Result>>(conf)
-        .then((res: AxiosResponse<Result>) => {
+        .request<any, AxiosResponse<ResultSuccess>>(conf)
+        .then((res: AxiosResponse<ResultSuccess>) => {
           if (transformResponseHook && isFunction(transformResponseHook)) {
             try {
               const ret = transformResponseHook(res, mergeRequestOptions);

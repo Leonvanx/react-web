@@ -19,7 +19,7 @@ const LayoutComp: React.FC = () => {
           {/* <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} /> */}
         </Sider>
         <Layout className="site-layout">
-          <Content style={{ margin: '0 16px' }}>
+          <Content style={{ margin: '16px 16px' }}>
             {/* <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>User</Breadcrumb.Item>
               <Breadcrumb.Item>Bill</Breadcrumb.Item>
