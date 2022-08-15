@@ -10,6 +10,7 @@
  * ci：自动化流程配置或脚本修改
  * chore：非 src 和 test 的修改，发布版本等
  * revert：恢复先前的提交
+ * 详情见https://www.conventionalcommits.org/en/v1.0.0/
  */
 module.exports = {
   extends: ['@commitlint/config-conventional'],
