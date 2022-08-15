@@ -6,9 +6,9 @@
     "dev": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --cache --fix",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix ",
     "prettier": "prettier --write . --check --ignore-unknown",
-    "lintAndPrettier": "npm run lint && npm run prettier",
+    "lintAndPrettier": "npm run lint & npm run prettier",
     "prepare": "husky install"
   },
   "lint-staged": {

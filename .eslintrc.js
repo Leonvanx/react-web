@@ -28,7 +28,7 @@ module.exports = {
   // 第三方插件
   plugins: ['react', '@typescript-eslint/eslint-plugin'],
   // 规则配置
-  ignorePatterns: ['config/*', 'scripts/*'],
+  ignorePatterns: ['config/*', 'scripts/*', 'package-lock.json', 'package.json'],
   rules: {
     semi: 0,
     'no-unused-vars': [
@@ -43,7 +43,7 @@ module.exports = {
     ],
     'no-useless-escape': 2,
     'no-tabs': 'off',
-    'no-debugger': 1,
+    'no-debugger': 2,
     '@typescript-eslint/explicit-member-accessibility': ['off']
   },
   // 指定react版本防止lint报错

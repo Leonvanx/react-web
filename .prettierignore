@@ -4,3 +4,4 @@ public
 scripts
 config
 .html
+src/design/antd/*
