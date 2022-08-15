@@ -6,7 +6,8 @@
     "dev": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "lint": "./node_modules/eslint/bin/eslint.js src --ext .js,.jsx,.ts,.tsx --cache --fix"
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --cache --fix",
+    "prettier": "prettier --write . --check --ignore-unknown"
   },
   "dependencies": {
     "ahooks": "^3.5.2",
