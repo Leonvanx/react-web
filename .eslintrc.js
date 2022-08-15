@@ -43,7 +43,7 @@ module.exports = {
     ],
     'no-useless-escape': 2,
     'no-tabs': 'off',
-    'no-debugger': 2,
+    'no-debugger': 1,
     '@typescript-eslint/explicit-member-accessibility': ['off']
   },
   // 指定react版本防止lint报错
