@@ -3,8 +3,8 @@ import { GetUserInfoModel, LoginParams, LoginResultModel } from './loginType';
 import { RequestOptions } from '#/requestOptions';
 
 const Api = {
-  Login: '/api/login',
-  GetUserInfo: '/api/getUserInfo'
+  Login: '/apiProxy/user/login',
+  GetUserInfo: '/apiProxy/user/getUserInfo'
 };
 
 /**

@@ -16,9 +16,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    // "noUnusedLocals": true,
-    // "noUnusedParameters": true,
     "experimentalDecorators": true,
+    // "declaration": true,
+    // "declarationDir": "dist/types",
     "paths": {
       "@/*": ["src/*"],
       "#/*": ["src/types/*"],

@@ -28,7 +28,7 @@ module.exports = {
   // 第三方插件
   plugins: ['react', '@typescript-eslint/eslint-plugin'],
   // 规则配置
-  ignorePatterns: ['config/*', '!**/.eslintrc.js'],
+  ignorePatterns: ['config/*', 'scripts/*'],
   rules: {
     semi: 0,
     'no-unused-vars': [
@@ -45,6 +45,15 @@ module.exports = {
     'no-tabs': 'off',
     'no-debugger': 1,
     '@typescript-eslint/explicit-member-accessibility': ['off']
+  },
+  // 指定react版本防止lint报错
+  settings: {
+    react: {
+      createClass: 'createReactClass', // Regex for Component Factory to use,
+      pragma: 'React', // Pragma to use, default to "React"
+      fragment: 'Fragment', // Fragment to use (may be a property of <pragma>), default to "Fragment"
+      version: 'detect' // React version. "detect" automatically picks the version you have installed.
+    }
   }
 };
 // ];

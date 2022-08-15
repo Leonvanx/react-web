@@ -6,11 +6,11 @@ module.exports = {
     port: process.env.PORT || 9000,
     open: true,
     proxy: {
-      '/api': {
+      '/apiProxy': {
         target: 'http://127.0.0.1:7001/',
         changeOrigin: true,
         pathRewrite: {
-          '^/api': ''
+          '^/apiProxy': ''
         }
       }
     }

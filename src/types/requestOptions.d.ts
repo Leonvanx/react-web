@@ -21,6 +21,7 @@ export interface ResultSuccess<T = any> {
 export interface ResultError<T = any> {
   code: number;
   message: string;
+  result?: T;
 }
 
 export interface UploadFileParams {
