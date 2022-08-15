@@ -30,7 +30,7 @@ const Ex2: React.FC = () => {
         if (Math.random() > 0.5) {
           resolve({ success: true });
         } else {
-          reject(new Error('Failed to modify username'));
+          reject(new Error('Failed to modify username' + username));
         }
       }, 1000);
     });

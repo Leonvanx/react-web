@@ -5,9 +5,11 @@ const Login: React.FC = () => {
   const data = { userName: 'test', userPwd: '123456' };
   const POST = () => {
     loginApi(data)
-      .then((res) => {})
+      .then((res) => {
+        console.log(res);
+      })
       .catch((e) => {
-        // console.log(e);
+        console.log(e);
       });
   };
   const GET = () => {

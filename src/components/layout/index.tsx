@@ -1,10 +1,10 @@
-import { Breadcrumb, Layout, Menu, Radio } from 'antd';
+import { Layout } from 'antd';
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import SideMenu from './sideMenu';
 import './style/index.less';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 
 const LayoutComp: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
