@@ -51,7 +51,7 @@ module.exports = {
     'no-useless-escape': 2,
     'no-tabs': 'off',
     'no-debugger': process.env === 'production' ? 1 : 0,
-    '@typescript-eslint/explicit-member-accessibility': ['off'],
+    '@typescript-eslint/explicit-member-accessibility': [1, { accessibility: 'no-public' }], // class成员可访问性默认public
     'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
     'react-hooks/exhaustive-deps': 'warn' // Checks effect dependencies
   },

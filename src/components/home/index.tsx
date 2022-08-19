@@ -1,6 +1,6 @@
 import { Button, DatePicker } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import timerStore from 'modules/test';
+import timerStore from '@/stores/test';
 import { useEffect } from 'react';
 
 const Home: React.FC = () => {
