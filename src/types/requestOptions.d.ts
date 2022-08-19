@@ -16,11 +16,6 @@ export interface RequestOptions {
 export interface ResultSuccess<T = any> {
   code: number;
   message: string;
-  result: T;
-}
-export interface ResultError<T = any> {
-  code: number;
-  message: string;
   result?: T;
 }
 

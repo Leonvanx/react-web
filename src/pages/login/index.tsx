@@ -2,7 +2,7 @@ import { getUserInfo, loginApi } from '@/apis/login';
 import { Button } from 'antd';
 
 const Login: React.FC = () => {
-  const data = { userName: 'test', userPwd: '123456' };
+  const data = { userEmail: 'test@123.com', userPwd: '123456' };
   const POST = () => {
     loginApi(data)
       .then((res) => {
@@ -13,7 +13,9 @@ const Login: React.FC = () => {
       });
   };
   const GET = () => {
-    getUserInfo(data);
+    getUserInfo(data)
+      .then((res) => {})
+      .catch((e) => {});
   };
   return (
     <>

@@ -1,26 +1,23 @@
-import { ResultSuccess } from '#/requestOptions.d';
+import { ResultSuccess } from '@/types/requestOptions';
 export interface LoginParams {
-  userName: string;
+  userEmail: string;
   userPwd: string;
 }
 export interface RoleInfo {
   roleName: string;
   value: string;
 }
-export interface LoginResultModel extends ResultSuccess {
-  result?: {
+
+export interface GetUserInfoModel extends ResultSuccess {
+  result: {
+    roles: RoleInfo[];
+    // 用户id
     userId: string | number;
-    userRole: RoleInfo;
+    // 用户名
+    username: string;
+    // 真实名字
+    realName: string;
+    // 介绍
+    desc?: string;
   };
-}
-export interface GetUserInfoModel {
-  roles: RoleInfo[];
-  // 用户id
-  userId: string | number;
-  // 用户名
-  username: string;
-  // 真实名字
-  realName: string;
-  // 介绍
-  desc?: string;
 }
