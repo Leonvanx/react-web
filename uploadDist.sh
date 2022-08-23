@@ -1,0 +1,1 @@
+scp -r dist xulf@175.24.166.118:/project/react-web
