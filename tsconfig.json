@@ -24,8 +24,7 @@
       "#/*": ["src/types/*"],
       "pages/*": ["src/pages/*"],
       "comps/*": ["src/components/*"],
-      "hooks/*": ["src/hooks/*"],
-      "modules/*": ["src/modules/*"]
+      "hooks/*": ["src/hooks/*"]
     }
   },
   "include": ["src", "src/**/*.ts", "**/*.tsx"]
