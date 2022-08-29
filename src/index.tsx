@@ -7,7 +7,7 @@ import App from './App';
 
 import { Toaster } from 'react-hot-toast';
 // import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import Loading from './components/loading';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -15,11 +15,11 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <Toaster />
-    <BrowserRouter>
+    <HashRouter>
       <Suspense fallback={<Loading />}>
         <App />
       </Suspense>
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>
 );
 
