@@ -1,19 +1,17 @@
 import { getUserInfo, loginApi } from '@/apis/login';
+import myToast from '@/utils/toast';
 import { Button } from 'antd';
 
 const Login: React.FC = () => {
   const data = { userEmail: 'test@123.com', userPwd: '123456' };
   const POST = () => {
-    loginApi(data)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    loginApi(data, { isWithToken: false }).then((res) => {
+      window.localStorage.setItem('token', 'Bearer ' + res.result.token);
+      myToast.success(res.message);
+    });
   };
   const GET = () => {
-    getUserInfo(data)
+    getUserInfo(data, { isWithToken: false })
       .then((res) => {})
       .catch((e) => {});
   };

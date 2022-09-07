@@ -48,18 +48,8 @@ const axiosAspect: AxiosAspect = {
   },
 
   transformResponseHook: (res: AxiosResponse<ResultSuccess>, options: RequestOptions) => {
-    const { isReturnOriginResponse, isReturnNoAspectResponse } = options;
+    const { isReturnOriginResponse, isReturnAspectResponse } = options;
     if (res) {
-      // 是否返回原生响应头 比如：需要获取响应头时使用该属性
-      if (isReturnOriginResponse) {
-        return res;
-      }
-      // 不进行任何处理，直接返回
-      // 用于页面代码可能需要直接获取code，data，message这些信息时开启
-      if (isReturnNoAspectResponse) {
-        return res.data;
-      }
-
       const { data } = res;
       if (!data) {
         throw new Error('request has no return value');
@@ -68,9 +58,17 @@ const axiosAspect: AxiosAspect = {
 
       const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
       if (hasSuccess) {
-        return result || message;
+        // 是否返回原生响应头 比如：需要获取响应头时使用该属性
+        if (isReturnOriginResponse) {
+          return res;
+        }
+        // 不进行任何处理，直接返回
+        // 用于页面代码可能需要直接获取code，data，message这些信息时开启
+        if (isReturnAspectResponse) {
+          return result || message;
+        }
+        return res.data;
       }
-
       // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
       let msg = '';
       switch (code) {
@@ -91,22 +89,20 @@ const axiosAspect: AxiosAspect = {
     }
   },
 
-  requestInterceptors: (config: AxiosRequestConfig, options: AxiosOptions) => {
+  requestInterceptors: (config: AxiosOptions, options: AxiosOptions) => {
     // config repeat request
     const axiosCanceler = new AxiosCanceler();
-    const { isIgnoreRepeatRequest } = options.requestOptions!;
+    const { isIgnoreRepeatRequest, isWithToken } = config.requestOptions!;
     const ignoreCancel =
       isIgnoreRepeatRequest !== undefined ? isIgnoreRepeatRequest : options.requestOptions?.isIgnoreRepeatRequest;
     ignoreCancel && axiosCanceler.addPending(config);
 
     // config token
-    // const token = getToken();
-    // if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
-    //   // jwt token
-    //   (config as Recordable).headers.Authorization = options.authenticationScheme
-    //     ? `${options.authenticationScheme} ${token}`
-    //     : token;
-    // }
+    const token = window.localStorage.getItem('token');
+    if (token && isWithToken !== false) {
+      // jwt token
+      config.headers!.Authorization = token;
+    }
     return config;
   },
 
@@ -152,9 +148,10 @@ function ceateAxios(option?: AxiosOptions) {
         headers: { 'Content-Type': ContentTypeEnum.JSON },
         axiosAspect: axiosAspect,
         requestOptions: {
+          // 是否需要返回带Headers等参数的原生res
           isReturnOriginResponse: false,
           // 是否需要返回不经过Aspect处理的res
-          isReturnNoAspectResponse: false,
+          isReturnAspectResponse: false,
           // 是否需要将POST请求的参数拼接到URL
           isJoinParamsToUrl: false,
           // 是否需要加入时间戳
@@ -162,7 +159,7 @@ function ceateAxios(option?: AxiosOptions) {
           // 是否需要忽略重复请求
           isIgnoreRepeatRequest: true,
           // 是否需要增加TOKEN到请求头
-          withToken: true
+          isWithToken: '12'
         }
       },
       option || {}
