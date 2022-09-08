@@ -11,7 +11,7 @@ const Login: React.FC = () => {
     });
   };
   const GET = () => {
-    getUserInfo(data, { isWithToken: false })
+    getUserInfo(data)
       .then((res) => {})
       .catch((e) => {});
   };
