@@ -4,7 +4,7 @@ export function checkStatus(status: number, msg: string): void {
 
   switch (status) {
     case 400:
-      errMessage = `${msg}`;
+      errMessage = msg;
       break;
     // 401: Not logged in
     // Jump to the login page if not logged in, and carry the path of the current page

@@ -11,9 +11,9 @@ const Login: React.FC = () => {
     });
   };
   const GET = () => {
-    getUserInfo(data)
-      .then((res) => {})
-      .catch((e) => {});
+    getUserInfo(data).then((res) => {
+      console.log(res.result);
+    });
   };
   return (
     <>

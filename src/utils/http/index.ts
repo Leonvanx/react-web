@@ -73,11 +73,11 @@ const axiosAspect: AxiosAspect = {
       let msg = '';
       switch (code) {
         case ResultEnum.TIMEOUT:
-          msg = '接口请求超时,请刷新页面重试';
+          msg = '用户没有访问权限，需要进行身份认证';
           /**
            * TODO
            */
-          myToast.error(msg);
+          myToast.error(message || msg);
           throw new Error(msg);
         default:
           if (message) {
@@ -119,7 +119,6 @@ const axiosAspect: AxiosAspect = {
     const msg: string = response?.data?.error?.message ?? '';
     const err: string = error?.toString?.() ?? '';
     let errMessage = '';
-
     // socket请求错误
     try {
       if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
