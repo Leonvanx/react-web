@@ -78,13 +78,17 @@ const axiosAspect: AxiosAspect = {
            * TODO
            */
           myToast.error(message || msg);
-          throw new Error(msg);
+          return msg;
+        // throw new Error(msg);
         default:
-          if (message) {
+          if (isString(message)) {
             msg = message;
             myToast.error(msg);
+          } else {
+            myToast.error('服务器错误');
           }
-          throw new Error(msg);
+          return msg;
+        // throw new Error(msg);
       }
     }
   },
