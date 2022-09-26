@@ -3,7 +3,7 @@ import { userRegisterApi } from '@/apis/user/register';
 import myToast from '@/utils/toast';
 import { Button } from 'antd';
 
-const Login: React.FC = () => {
+const LoginPage: React.FC = () => {
   const data = { userEmail: 'test@123.com', userPwd: '123456' };
   const post = () => {
     userLoginApi(data, { isWithToken: false }).then((res) => {
@@ -39,4 +39,4 @@ const Login: React.FC = () => {
     </>
   );
 };
-export default Login;
+export default LoginPage;
