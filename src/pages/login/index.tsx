@@ -5,7 +5,7 @@ import { Button } from 'antd';
 
 const LoginPage: React.FC = () => {
   const data = { userEmail: 'test@123.com', userPwd: '123456' };
-  const post = () => {
+  const login = () => {
     userLoginApi(data, { isWithToken: false }).then((res) => {
       window.localStorage.setItem('token', 'Bearer ' + res.result.token);
       myToast.success(res.message);
@@ -30,7 +30,7 @@ const LoginPage: React.FC = () => {
   };
   return (
     <>
-      <Button type="primary" style={{ marginRight: '30px' }} onClick={registerUser}>
+      <Button type="primary" style={{ marginRight: '30px' }} onClick={login}>
         测试POST
       </Button>
       <Button type="default" onClick={get}>

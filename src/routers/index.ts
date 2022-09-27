@@ -23,9 +23,8 @@ const routeConfig: RouteObject[] = [
   },
   {
     path: '/index',
-    element: React.createElement(Home)
+    element: React.createElement(LayoutComp)
   },
-  {},
   {
     element: React.createElement(LayoutComp),
     children: [

@@ -1,5 +1,5 @@
 import { Layout } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import SideMenu from './sideMenu';
 import './style/index.less';
@@ -8,7 +8,15 @@ const { Header, Content, Sider } = Layout;
 
 const LayoutComp: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
-  return (
+  // const [isLogin, setIsLogin] = useState(false);
+  const isLogin = window.localStorage.getItem('token') ? true : false;
+  // console.log(isLogin.current);
+  // useEffect(() => {
+  //   isLogin.current =
+  // }, []);
+  return !isLogin ? (
+    <div>未登录</div>
+  ) : (
     <Layout>
       <Header className="header">
         {/* <Menu theme="light" mode="horizontal" defaultSelectedKeys={['2']} items={[]} /> */}
