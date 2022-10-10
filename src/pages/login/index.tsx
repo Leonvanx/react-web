@@ -1,5 +1,4 @@
-import { getUserInfoApi, userLoginApi } from '@/apis/user/login';
-import { userRegisterApi } from '@/apis/user/register';
+import { getUserInfoApi, getUserListApi, editUserInfo, userLoginApi, userRegisterApi } from '@/apis/user/index';
 import myToast from '@/utils/toast';
 import { Button } from 'antd';
 
@@ -27,6 +26,9 @@ const LoginPage: React.FC = () => {
       res.message && myToast.success(res.message);
       console.log(res);
     });
+  };
+  const updateUserInfo = () => {
+    editUserInfo({});
   };
   return (
     <>
