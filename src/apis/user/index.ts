@@ -1,5 +1,5 @@
 import defHttp from '@/utils/http';
-import { LoginParams, registerParams, User, UserInfoList, UserInfoModel } from './user';
+import { LoginParams, RegisterParams, UpdateParams, User } from './user';
 import { RequestOptions, ResultSuccess } from '#/requestOptions';
 
 const Api = {
@@ -25,7 +25,7 @@ export function userLoginApi(data: LoginParams, reqOptions?: RequestOptions) {
 /**
  * @description: register user api
  */
-export function userRegisterApi(data: registerParams, reqOptions?: RequestOptions) {
+export function userRegisterApi(data: RegisterParams, reqOptions?: RequestOptions) {
   return defHttp.post<ResultSuccess>(
     {
       url: Api.Register,
@@ -37,8 +37,8 @@ export function userRegisterApi(data: registerParams, reqOptions?: RequestOption
 /**
  * @description: get user info
  */
-export function getUserInfoApi(params: any, reqOptions?: RequestOptions) {
-  return defHttp.get<UserInfoModel>(
+export function getUserInfoApi(params: { userId: number }, reqOptions?: RequestOptions) {
+  return defHttp.get<ResultSuccess<User>>(
     {
       url: Api.GetUserInfo,
       params: params
@@ -50,7 +50,7 @@ export function getUserInfoApi(params: any, reqOptions?: RequestOptions) {
  * @description: get user list
  */
 export function getUserListApi(params: any, reqOptions?: RequestOptions) {
-  return defHttp.get<UserInfoList>(
+  return defHttp.get<ResultSuccess<User[]>>(
     {
       url: Api.GetUserList,
       params: params
@@ -61,11 +61,8 @@ export function getUserListApi(params: any, reqOptions?: RequestOptions) {
 /**
  * @description: edit user info
  */
-export function editUserInfo(
-  params: Omit<Partial<User>, 'userId' | 'createTime' | 'updateTime'>,
-  reqOptions?: RequestOptions
-) {
-  return defHttp.get<ResultSuccess>(
+export function editUserInfo(params: UpdateParams, reqOptions?: RequestOptions) {
+  return defHttp.post<ResultSuccess>(
     {
       url: Api.UpdateUserInfo,
       params: params

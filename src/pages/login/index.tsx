@@ -11,8 +11,8 @@ const LoginPage: React.FC = () => {
     });
   };
   const queryUser = () => {
-    getUserInfoApi(data).then((res) => {
-      console.log(res.result);
+    getUserInfoApi({ userId: 100 }).then((res) => {
+      console.log(res);
     });
   };
   const registerUser = () => {
@@ -28,7 +28,9 @@ const LoginPage: React.FC = () => {
     });
   };
   const updateUserInfo = () => {
-    editUserInfo({});
+    editUserInfo({ userAddress: '迪斯尼公园' }).then((res) => {
+      console.log(res.message);
+    });
   };
   return (
     <>

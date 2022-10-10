@@ -1,31 +1,18 @@
-import { ResultSuccess } from '@/types/requestOptions';
-export interface LoginParams {
-  userEmail: string;
-  userPwd: string;
-}
-
-export interface registerParams {
-  userName: string;
-  userPwd: string;
-  userPhone?: string;
-  userEmail?: string;
-}
-
 export interface User {
-  userId?: number;
+  userId: number;
   userName: string;
-  userPhone?: string;
   userEmail: string;
+  userPhone: string;
   userPwd: string;
-  userAddress?: string;
-  createTime?: Date;
-  updateTime?: Date;
+  userAddress: string;
+  createTime: Date;
+  updateTime: Date;
 }
 
-export interface UserInfoModel extends ResultSuccess {
-  result: User;
-}
+type RegisterParams = Partial<Omit<User, 'userId' | 'userAddress' | 'createTime' | 'updateTime'>>;
 
-export interface UserInfoList extends ResultSuccess {
-  result: User[];
-}
+type LoginParams = Partial<Omit<User, 'userId' | 'userAddress' | 'createTime' | 'updateTime'>>;
+
+type UpdateParams = Partial<Omit<User, 'userId' | 'createTime' | 'updateTime'>>;
+
+export { RegisterParams, LoginParams, UpdateParams };
