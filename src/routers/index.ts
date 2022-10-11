@@ -2,15 +2,14 @@ import React from 'react';
 import { RouteObject } from 'react-router-dom';
 import LayoutComp from '@/components/layout';
 import Redirect from '@/components/redirect';
-import RegisterPage from '@/pages/register';
+import LoginPage from '@/pages/login';
 
-const Home = React.lazy(() => import('comps/home'));
 const Invoice = React.lazy(() => import('comps/invoice'));
 const Invoices = React.lazy(() => import('comps/invoices'));
 const Ex1 = React.lazy(() => import('comps/example/ex1'));
 const Ex2 = React.lazy(() => import('comps/example/ex2'));
 
-const LoginPage = React.lazy(() => import('pages/login'));
+const TestPage = React.lazy(() => import('@/pages/test'));
 
 const routeConfig: RouteObject[] = [
   {
@@ -20,6 +19,10 @@ const routeConfig: RouteObject[] = [
   {
     path: '/',
     element: React.createElement(Redirect)
+  },
+  {
+    path: '/login',
+    element: React.createElement(LoginPage)
   },
   {
     path: '/index',
@@ -47,12 +50,8 @@ const routeConfig: RouteObject[] = [
         element: React.createElement(Invoices)
       },
       {
-        path: '/login',
-        element: React.createElement(LoginPage)
-      },
-      {
-        path: '/register',
-        element: React.createElement(RegisterPage)
+        path: '/test',
+        element: React.createElement(TestPage)
       }
     ]
   }

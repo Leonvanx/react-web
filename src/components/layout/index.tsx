@@ -9,14 +9,10 @@ const { Header, Content, Sider } = Layout;
 const LayoutComp: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   // const [isLogin, setIsLogin] = useState(false);
-  const isLogin = window.localStorage.getItem('token') ? true : false;
-  // console.log(isLogin.current);
-  // useEffect(() => {
-  //   isLogin.current =
-  // }, []);
-  return !isLogin ? (
-    <div>123</div>
-  ) : (
+  useEffect(() => {
+    console.log('经过layout');
+  }, []);
+  return (
     <Layout>
       <Header className="header">
         {/* <Menu theme="light" mode="horizontal" defaultSelectedKeys={['2']} items={[]} /> */}

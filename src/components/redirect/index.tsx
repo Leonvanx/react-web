@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Redirect: React.FC = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     console.log('经过redict');
-  }, []);
-  return <Navigate to="/index" />;
+    navigate('/login');
+  }, [navigate]);
+  return null;
 };
 export default Redirect;
