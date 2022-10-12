@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 export interface RequestOptions {
   // 是否需要返回带响应头的原生res
   isReturnOriginResponse?: boolean;
@@ -13,10 +14,22 @@ export interface RequestOptions {
   isWithToken?: boolean;
 }
 
+/**
+ * @description
+ * 只包含code,message,result的返回结果
+ */
 export interface ResultSuccess<T = any> {
   code: number;
   message: string;
   result?: T;
+}
+
+/**
+ * @description
+ * 包含http响应头等信息的原生httpRes
+ */
+export interface OriginResult<T = any> extends AxiosResponse {
+  data: ResultSuccess<T>;
 }
 
 export interface UploadFileParams {
