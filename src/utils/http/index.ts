@@ -55,15 +55,13 @@ const axiosAspect: AxiosAspect = {
         throw new Error('request has no return value');
       }
       const { code, result, message } = data;
-
       const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
       if (hasSuccess) {
         // 是否返回原生响应头 比如：需要获取响应头时使用该属性
         if (isReturnOriginResponse) {
           return res;
         }
-        // 不进行任何处理，直接返回
-        // 用于页面代码可能需要直接获取code，data，message这些信息时开启
+        // 不进行任何处理，直接返回，用于页面代码可能需要直接获取code，data，message这些信息时开启
         if (isReturnAspectResponse) {
           return result || message;
         }
@@ -73,10 +71,14 @@ const axiosAspect: AxiosAspect = {
       let msg = '';
       switch (code) {
         case ResultEnum.TIMEOUT:
-          msg = '用户没有访问权限，需要进行身份认证';
+          msg = '用户信息已过期，请重新登录!';
           /**
            * TODO
            */
+          // 是否返回原生响应头 比如：需要获取响应头时使用该属性
+          if (isReturnOriginResponse) {
+            return res;
+          }
           myToast.error(message || msg);
           return res.data;
         // throw new Error(msg);
@@ -86,6 +88,10 @@ const axiosAspect: AxiosAspect = {
             myToast.error(msg);
           } else {
             myToast.error('服务器错误');
+          }
+          // 是否返回原生响应头 比如：需要获取响应头时使用该属性
+          if (isReturnOriginResponse) {
+            return res;
           }
           return res.data;
         // throw new Error(msg);
