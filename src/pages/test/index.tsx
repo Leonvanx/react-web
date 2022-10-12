@@ -5,9 +5,9 @@ import { Button } from 'antd';
 const TestPage: React.FC = () => {
   const data = { userEmail: 'lvin_xu@outlook.com', userPwd: '123456' };
   const login = () => {
-    userLoginApi(data, { isWithToken: false }).then((res) => {
-      window.localStorage.setItem('token', 'Bearer ' + res.result.token);
-      myToast.success(res.message);
+    userLoginApi(data, { isWithToken: false, isReturnOriginResponse: true }).then((res) => {
+      window.localStorage.setItem('token', 'Bearer ' + res.headers.authorization);
+      myToast.success(res.data.message);
     });
   };
   const queryUser = () => {

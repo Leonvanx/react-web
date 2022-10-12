@@ -1,6 +1,6 @@
 import defHttp from '@/utils/http';
 import { LoginParams, RegisterParams, UpdateParams, User } from './user';
-import { RequestOptions, ResultSuccess } from '#/requestOptions';
+import { RequestOptions, ResultSuccess, OriginResult } from '#/requestOptions';
 
 const Api = {
   Login: '/apiProxy/user/login',
@@ -14,7 +14,7 @@ const Api = {
  * @description: user login api
  */
 export function userLoginApi(data: LoginParams, reqOptions?: RequestOptions) {
-  return defHttp.post<ResultSuccess>(
+  return defHttp.post<OriginResult>(
     {
       url: Api.Login,
       data: data
