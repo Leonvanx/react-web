@@ -105,7 +105,7 @@ const axiosAspect: AxiosAspect = {
     const token = window.localStorage.getItem('token');
     if (token && isWithToken !== false) {
       // jwt token
-      config.headers!.Authorization = token;
+      config.headers!.authorization = token;
     }
     return config;
   },
