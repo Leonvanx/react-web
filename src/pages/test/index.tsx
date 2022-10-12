@@ -3,11 +3,13 @@ import myToast from '@/utils/toast';
 import { Button } from 'antd';
 
 const TestPage: React.FC = () => {
-  const data = { userEmail: 'lvin_xu@outlook.com', userPwd: '123456' };
+  const data = { userName: 'xulf', userPwd: 'Lvinxu520xlf.' };
   const login = () => {
     userLoginApi(data, { isWithToken: false, isReturnOriginResponse: true }).then((res) => {
-      window.localStorage.setItem('token', 'Bearer ' + res.headers.authorization);
-      myToast.success(res.data.message);
+      if (res.data.code === 0) {
+        window.localStorage.setItem('token', 'Bearer ' + res.headers.authorization);
+        myToast.success(res.data.message);
+      }
     });
   };
   const queryUser = () => {
